@@ -18,41 +18,61 @@ class Ingredient
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=150)
-     */
-    private $name;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="ingredients")
+     * @ORM\ManyToOne(targetEntity=Aliment::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    private $category;
+    private $aliment;
+
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Recipe::class, inversedBy="ingredients")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $recipe;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $quantity;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getAliment(): ?Aliment
     {
-        return $this->name;
+        return $this->aliment;
     }
 
-    public function setName(string $name): self
+    public function setAliment(?Aliment $aliment): self
     {
-        $this->name = $name;
+        $this->aliment = $aliment;
 
         return $this;
     }
 
-    public function getCategory(): ?Category
+    public function getRecipe(): ?Recipe
     {
-        return $this->category;
+        return $this->recipe;
     }
 
-    public function setCategory(?Category $category): self
+    public function setRecipe(?Recipe $recipe): self
     {
-        $this->category = $category;
+        $this->recipe = $recipe;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?float
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(?float $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }
