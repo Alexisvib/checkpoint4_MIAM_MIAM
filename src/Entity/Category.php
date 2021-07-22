@@ -30,14 +30,15 @@ class Category
     private $identifier;
 
     /**
-     * @ORM\OneToMany(targetEntity=Ingredient::class, mappedBy="category", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Aliment::class, mappedBy="category", orphanRemoval=true)
      */
-    private $ingredients;
+    private $aliments;
 
     public function __construct()
     {
-        $this->ingredients = new ArrayCollection();
+        $this->aliments = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -69,29 +70,29 @@ class Category
     }
 
     /**
-     * @return Collection|Ingredient[]
+     * @return Collection|Aliment[]
      */
-    public function getIngredients(): Collection
+    public function getAliments(): Collection
     {
-        return $this->ingredients;
+        return $this->aliments;
     }
 
-    public function addIngredient(Ingredient $ingredient): self
+    public function addAliment(Aliment $aliment): self
     {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients[] = $ingredient;
-            $ingredient->setCategory($this);
+        if (!$this->aliments->contains($aliment)) {
+            $this->aliments[] = $aliment;
+            $aliment->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removeIngredient(Ingredient $ingredient): self
+    public function removeAliment(Aliment $aliment): self
     {
-        if ($this->ingredients->removeElement($ingredient)) {
+        if ($this->aliments->removeElement($aliment)) {
             // set the owning side to null (unless already changed)
-            if ($ingredient->getCategory() === $this) {
-                $ingredient->setCategory(null);
+            if ($aliment->getCategory() === $this) {
+                $aliment->setCategory(null);
             }
         }
 

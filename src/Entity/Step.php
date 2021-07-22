@@ -29,9 +29,9 @@ class Step
 
     /**
      * @ORM\ManyToOne(targetEntity=Recipe::class, inversedBy="steps")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $recipe;
+
 
     public function getId(): ?int
     {

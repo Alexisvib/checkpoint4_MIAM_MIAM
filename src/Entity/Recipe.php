@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Recipe
 {
@@ -60,21 +61,45 @@ class Recipe
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity=Step::class, mappedBy="recipe", orphanRemoval=true)
-     */
-    private $steps;
-
-    /**
      * @ORM\OneToMany(targetEntity=Rate::class, mappedBy="recipe")
      */
     private $rates;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Ingredient::class, mappedBy="recipe", cascade={"persist"})
+     */
+    private $ingredients;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Step::class, mappedBy="recipe", cascade={"persist"})
+     */
+    private $steps;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->steps = new ArrayCollection();
         $this->rates = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
+        $this->steps = new ArrayCollection();
     }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
 
     public function getId(): ?int
     {
@@ -193,36 +218,6 @@ class Recipe
     }
 
     /**
-     * @return Collection|Step[]
-     */
-    public function getSteps(): Collection
-    {
-        return $this->steps;
-    }
-
-    public function addStep(Step $step): self
-    {
-        if (!$this->steps->contains($step)) {
-            $this->steps[] = $step;
-            $step->setRecipe($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStep(Step $step): self
-    {
-        if ($this->steps->removeElement($step)) {
-            // set the owning side to null (unless already changed)
-            if ($step->getRecipe() === $this) {
-                $step->setRecipe(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Rate[]
      */
     public function getRates(): Collection
@@ -246,6 +241,66 @@ class Recipe
             // set the owning side to null (unless already changed)
             if ($rate->getRecipe() === $this) {
                 $rate->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ingredient[]
+     */
+    public function getIngredients(): Collection
+    {
+        return $this->ingredients;
+    }
+
+    public function addIngredient(Ingredient $ingredient): self
+    {
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients[] = $ingredient;
+            $ingredient->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIngredient(Ingredient $ingredient): self
+    {
+        if ($this->ingredients->removeElement($ingredient)) {
+            // set the owning side to null (unless already changed)
+            if ($ingredient->getRecipe() === $this) {
+                $ingredient->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Step[]
+     */
+    public function getSteps(): Collection
+    {
+        return $this->steps;
+    }
+
+    public function addStep(Step $step): self
+    {
+        if (!$this->steps->contains($step)) {
+            $this->steps[] = $step;
+            $step->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStep(Step $step): self
+    {
+        if ($this->steps->removeElement($step)) {
+            // set the owning side to null (unless already changed)
+            if ($step->getRecipe() === $this) {
+                $step->setRecipe(null);
             }
         }
 
