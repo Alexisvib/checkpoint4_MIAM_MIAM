@@ -97,6 +97,11 @@ class Recipe
      */
     private $picture;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -374,6 +379,18 @@ class Recipe
     public function setPicture(File $picture = null): Recipe
     {
         $this->picture = $picture;
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+
         return $this;
     }
 

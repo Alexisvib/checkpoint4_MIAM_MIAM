@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bonjour Administrateur !{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Panneau d'Administration</h1>
+
+    <div class="row">
+        <div class="col-6">
+            <a href="{{ path('admin_recipes') }}"><button> Gérer les recettes </button></a>
+        </div>
+        <div class="col-6">
+            <button> Voir les statistiques </button>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

@@ -12,10 +12,21 @@
     <h1> Formulaire d'édition d'une recette </h1>
 
     <div class="container recipe-add">
+        <div class="row d-flex justify-content-center">
+            <form method="post" action="{{ path('recipe_delete', {'recipe': recipe.id}) }}" onsubmit="return confirm('Êtes-vous sur de vouloir supprimer la recette ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recipe.id) }}">
+                <button class="btn button">Supprimer la recette</button>
+            </form>
+        </div>
+
+        <p class="h1">Modifier La recette</p>
+
+
         {{ form_start(form) }}
         {{ form_row(form.name, {
             label: 'Nom de la recette'
         }) }}
+        {{ form_row(form.picture) }}
         {{ form_row(form.guest, {
             label: 'Nombre de convive'
         }) }}
