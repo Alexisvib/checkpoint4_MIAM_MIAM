@@ -9,6 +9,8 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
     // directory where compiled assets will be stored
     .setOutputPath('public/build/')
+
+    .copyFiles({from: './assets/images'})
     // public path used by the web server to access the output path
     .setPublicPath('/build')
     // only needed for CDN's or sub-directory deploy
@@ -21,6 +23,8 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('steps', './assets/steps.js')
+    .addEntry('ingredients', './assets/ingredients.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

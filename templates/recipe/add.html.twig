@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+{% block title %}Ajouter une Recette{% endblock %}
+
+        {% block javascripts %}
+            {{ parent() }}
+            {{ encore_entry_script_tags('ingredients') }}
+            {{ encore_entry_script_tags('steps') }}
+        {% endblock %}
+
+{% block body %}
+    <h1> Formulaire Ajout de recette </h1>
+
+    <div class="container recipe-add">
+        {{ form_start(form) }}
+        {{ form_row(form.name, {
+            label: 'Nom de la recette'
+        }) }}
+        {{ form_row(form.picture) }}
+        {{ form_row(form.guest, {
+            label: 'Nombre de convive'
+        }) }}
+        {{ form_row(form.time, {
+            label: 'Temps total estimé de la recette en minute'
+        }) }}
+        {{ form_row(form.difficulty, {
+            label: 'Difficulté estimé de la recette'
+        }) }}
+        {{ form_row(form.cost) }}
+
+
+        <h2> Lister ici les ingrédients </h2>
+        {{ form_label(form.ingredients) }}
+        <ul class="ingredients" id="ingredient-container" data-prototype="{{ form_widget(form.ingredients.vars.prototype)|e('html_attr') }}"></ul>
+
+        <button type="button" id='add-ingredient' class="add_item_link btn btn-success" data-collection-holder-class="steps">Ajouter un ingrédient</button>
+
+
+        <h3> Décrire ci-dessous les étapes pour la recette </h3>
+        {{ form_label(form.steps) }}
+        <ul class="steps" id="step-container" data-prototype="{{ form_widget(form.steps.vars.prototype)|e('html_attr') }}"></ul>
+
+        <button type="button" id='add-step' class="add_item_link btn btn-danger" data-collection-holder-class="steps">Ajouter une étape</button>
+
+        <div class="row">
+            <button type="submit" class="btn btn-dark validation-button">Ajouter la recette</button>
+        </div>
+
+
+
+
+
+        {{ form_end(form) }}
+    </div>
+
+
+
+{% endblock %}
+
+

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ recipe.name }}{% endblock %}
+
+{% block body %}
+
+    <div class="container show">
+        <div class="row">
+            <h1>Recette : {{ recipe.name }}</h1>
+            <div class="row d-flex justify-content-center">
+                <img src="{{ asset('uploads/' ~ recipe.namePicture) }}" alt="image de la recette {{ recipe.name }}">
+            </div>
+
+            <div class="d-flex justify-content-center button-add ">
+            {% if app.user %}
+                <a href="{{ path('cart_add', {recipe: recipe.id}) }}"><button> Ajouter la recette à mon caddie ! </button></a>
+            {% endif %}
+            </div>
+        </div>
+
+
+        <h2> Ingrédients </h2>
+        <ul>
+            {% for ingredient in recipe.ingredients %}
+                <li> {{ ingredient.aliment.name }} {% if ingredient.quantity%} : quantité {{ ingredient.quantity }} {% endif %}</li>
+            {% endfor %}
+        </ul>
+        <h3> Etapes </h3>
+        <ul>
+            {% for step in recipe.steps %}
+                <li> étape {{ step.number }} : {{ step.description}} </li>
+
+            {% else %}
+                <li> Aucune étape indiquée </li>
+            {% endfor %}
+        </ul>
+
+        {% if app.user == recipe.owner %}
+            <a href="{{ path('recipe_edit', {slug: recipe.slug}) }}"><button>Editer ma recette</button></a>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

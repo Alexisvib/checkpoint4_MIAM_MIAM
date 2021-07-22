@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CartController!{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Ma liste de course</h1>
+    {% if list %}
+        {% for category, ingredients in list %}
+            <p class="title-category"><strong>{{ category }}</strong></p>
+            {% for ingredient in ingredients %}
+                <p class="ingredient"> {{ ingredient[0] }} {% if ingredient[1] %} quantité : {{  ingredient[1] }} {% endif %}</p>
+            {% endfor %}
+        {% endfor %}
+        <a href="{{ path('cart_close', {cart: cart.id}) }}"><button>Clôturer ma liste de course</button></a>
+        {% else %}
+        <h3> Il n'y a rien dans votre liste de course </h3>
+    {% endif %}
+
+
+
+</div>
+{% endblock %}

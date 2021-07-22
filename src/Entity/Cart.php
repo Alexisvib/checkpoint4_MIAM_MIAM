@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CartRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Cart
 {
@@ -48,6 +49,23 @@ class Cart
     public function __construct()
     {
         $this->recipes = new ArrayCollection();
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int

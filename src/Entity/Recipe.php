@@ -6,9 +6,14 @@ use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 /**
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
+ * @Vich\Uploadable
+ * @ORM\HasLifecycleCallbacks()
  */
 class Recipe
 {
@@ -60,21 +65,91 @@ class Recipe
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity=Step::class, mappedBy="recipe", orphanRemoval=true)
-     */
-    private $steps;
-
-    /**
      * @ORM\OneToMany(targetEntity=Rate::class, mappedBy="recipe")
      */
     private $rates;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Ingredient::class, mappedBy="recipe", cascade={"persist"})
+     */
+    private $ingredients;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Step::class, mappedBy="recipe", cascade={"persist"})
+     */
+    private $steps;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $namePicture;
+
+    /**
+     * @Vich\UploadableField(mapping="pictures", fileNameProperty="name_picture")
+     * @var File
+     */
+    private $picture;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->steps = new ArrayCollection();
         $this->rates = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
+        $this->steps = new ArrayCollection();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getNamePicture()
+    {
+        return $this->namePicture;
+    }
+
+    /**
+     * @param mixed $namePicture
+     * @return Recipe
+     */
+    public function setNamePicture($namePicture)
+    {
+        $this->namePicture = $namePicture;
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist(): void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function onPreUpdate(): void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
 
     public function getId(): ?int
     {
@@ -193,6 +268,66 @@ class Recipe
     }
 
     /**
+     * @return Collection|Rate[]
+     */
+    public function getRates(): Collection
+    {
+        return $this->rates;
+    }
+
+    public function addRate(Rate $rate): self
+    {
+        if (!$this->rates->contains($rate)) {
+            $this->rates[] = $rate;
+            $rate->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRate(Rate $rate): self
+    {
+        if ($this->rates->removeElement($rate)) {
+            // set the owning side to null (unless already changed)
+            if ($rate->getRecipe() === $this) {
+                $rate->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ingredient[]
+     */
+    public function getIngredients(): Collection
+    {
+        return $this->ingredients;
+    }
+
+    public function addIngredient(Ingredient $ingredient): self
+    {
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients[] = $ingredient;
+            $ingredient->setRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIngredient(Ingredient $ingredient): self
+    {
+        if ($this->ingredients->removeElement($ingredient)) {
+            // set the owning side to null (unless already changed)
+            if ($ingredient->getRecipe() === $this) {
+                $ingredient->setRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection|Step[]
      */
     public function getSteps(): Collection
@@ -222,33 +357,58 @@ class Recipe
         return $this;
     }
 
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
     /**
-     * @return Collection|Rate[]
+     * @return File
      */
-    public function getRates(): Collection
+    public function getPicture(): ?File
     {
-        return $this->rates;
+        return $this->picture;
     }
 
-    public function addRate(Rate $rate): self
+    /**
+     * @param File $picture
+     * @return Recipe
+     */
+    public function setPicture(File $picture = null): Recipe
     {
-        if (!$this->rates->contains($rate)) {
-            $this->rates[] = $rate;
-            $rate->setRecipe($this);
-        }
+        $this->picture = $picture;
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
 
-    public function removeRate(Rate $rate): self
+    public function getSlug(): ?string
     {
-        if ($this->rates->removeElement($rate)) {
-            // set the owning side to null (unless already changed)
-            if ($rate->getRecipe() === $this) {
-                $rate->setRecipe(null);
-            }
-        }
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
+
 }

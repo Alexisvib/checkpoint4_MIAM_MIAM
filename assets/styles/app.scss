@@ -1,10 +1,10 @@
-
-// customize some Bootstrap variables
-$primary: darken(#428bca, 20%);
-
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
-
-body {
-    background-color: lightgray;
-}
+@import 'variable.scss';
+@import 'global.scss';
+@import 'navbar.scss';
+@import 'login.scss';
+@import 'recipe_form.scss';
+@import 'cart.scss';
+@import 'home.scss';
+@import 'recipe_show.scss';

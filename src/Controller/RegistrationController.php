@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/inscription", name="app_register")
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
@@ -23,6 +23,8 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+
+            $user->setRoles(['ROLE_CONTRIBUTOR']);
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,

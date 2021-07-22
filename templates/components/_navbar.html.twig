@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a href="{{ path('home') }}"><img class="navbar-brand" src="{{ asset('build/logo.png') }}" alt="logo"/></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav d-flex justify-content-evenly w-100">
+                <li class="nav-item">
+                    <a class="nav-link {{ app.request.attributes.get('_route') == 'home' ? 'active' : '' }}" aria-current="page" href="{{ path('home') }}">Home</a>
+                </li>
+                {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link {{ app.request.attributes.get('_route') == 'recipe_add' ? 'active' : '' }}" aria-current="page" href="{{ path('recipe_add') }}">Ajouter recette</a>
+                </li>
+                {% endif %}
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ app.request.attributes.get('_route') == 'cart_index' ? 'active' : '' }}" aria-current="page" href="{{ path('cart_index') }}">Liste de course</a>
+                    </li>
+                {% endif %}
+                {% if is_granted("ROLE_ADMIN") %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ app.request.attributes.get('_route') == 'admin_index' ? 'active' : '' }}" href="{{ path('admin_index') }}">Administration</a>
+                    </li>
+                {% endif %}
+                {% if app.user %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ app.request.attributes.get('_route') == 'app_logout' ? 'active' : '' }}" aria-current="page" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ app.request.attributes.get('_route') == 'app_login' ? 'active' : '' }}" aria-current="page" href="{{ path('app_login') }}">Se Connecter</a>
+                    </li>
+                {% endif %}
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
