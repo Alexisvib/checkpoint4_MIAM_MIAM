@@ -7,7 +7,7 @@
     <div class="container show">
         <div class="row">
             <h1>Recette : {{ recipe.name }}</h1>
-            <div class="row d-flex justify-content-center">
+            <div class="row d-flex justify-content-center mt-4">
                 <img src="{{ asset('uploads/' ~ recipe.namePicture) }}" alt="image de la recette {{ recipe.name }}">
             </div>
 
@@ -17,28 +17,48 @@
             {% endif %}
             </div>
         </div>
+        <div class="row">
+            <p class="text-center"> Ajouté par {{ recipe.owner.pseudo }} le {{ recipe.createdAt|date("d/m/Y") }}</p>
+
+        </div>
 
 
-        <h2> Ingrédients </h2>
-        <ul>
-            {% for ingredient in recipe.ingredients %}
-                <li> {{ ingredient.aliment.name }} {% if ingredient.quantity%} : quantité {{ ingredient.quantity }} {% endif %}</li>
-            {% endfor %}
-        </ul>
-        <h3> Etapes </h3>
-        <ul>
-            {% for step in recipe.steps %}
-                <li> étape {{ step.number }} : {{ step.description}} </li>
+        <div class="row">
+            <div class="col-4">
+                <strong class="btn key-word">Temps estimé : {{ recipe.time }} m</strong>
+            </div>
+            <div class="col-4">
+                <strong class="btn key-word">Difficulté : {{ recipe.difficulty.name }}</strong>
+            </div>
+            <div class="col-4">
+                <strong class="btn key-word">Cout estimé : {{ recipe.cost.name }}</strong>
+            </div>
+        </div>
 
-            {% else %}
-                <li> Aucune étape indiquée </li>
-            {% endfor %}
-        </ul>
+        <div class="row mt-5">
+                <h2> Ingrédients </h2>
+                <ul>
+                    {% for ingredient in recipe.ingredients %}
+                        <li>{{ ingredient.aliment.name }} {% if ingredient.quantity%} : quantité {{ ingredient.quantity }} {% endif %}</li>
+                    {% endfor %}
+                </ul>
+        </div>
+        <div class="row mt-4">
+                <h3> Etapes </h3>
+                <ul>
+                    {% for step in recipe.steps %}
+                        <li> <strong>Etape {{ step.number }}</strong> </li>
+                        {{ step.description }}
 
-        {% if app.user == recipe.owner %}
-            <a href="{{ path('recipe_edit', {slug: recipe.slug}) }}"><button>Editer ma recette</button></a>
-        {% endif %}
+                    {% else %}
+                        <li> Aucune étape indiquée </li>
+                    {% endfor %}
+                </ul>
 
-    </div>
+                {% if app.user == recipe.owner %}
+                    <a href="{{ path('recipe_edit', {slug: recipe.slug}) }}"><button>Editer ma recette</button></a>
+                {% endif %}
+        </div>
+
 
 {% endblock %}
