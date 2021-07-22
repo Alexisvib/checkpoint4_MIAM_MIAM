@@ -7,6 +7,7 @@ use App\Entity\Ingredient;
 use App\Entity\Recipe;
 use App\Entity\Step;
 use App\Form\RecipeType;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,7 @@ class RecipeController extends AbstractController
      */
     public function add(Request $request, EntityManagerInterface $manager): Response
     {
+        $slugify = new Slugify();
         $recipe = new Recipe();
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
@@ -44,6 +46,7 @@ class RecipeController extends AbstractController
 
             $recipe->setOwner($this->getUser());
             $recipe->setIsActive(true);
+            $recipe->setSlug($slugify->slugify($recipe->getName()));
             $manager->persist($recipe);
             $manager->flush();
             $this->addFlash('success', 'recette ajoutée à l\'application');
@@ -55,10 +58,11 @@ class RecipeController extends AbstractController
     }
 
     /**
-     * @Route("/editer/{recipe}", name="edit")
+     * @Route("/editer/{slug}", name="edit")
      */
     public function edit(Recipe $recipe, Request $request, EntityManagerInterface $manager): Response
     {
+        $slugify = new Slugify();
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -78,6 +82,7 @@ class RecipeController extends AbstractController
             }
 
             $recipe->setOwner($this->getUser());
+            $recipe->setSlug($slugify->slugify($recipe->getName()));
             $manager->persist($recipe);
             $manager->flush();
             $this->addFlash('success', 'recette ajoutée à l\'application');
@@ -91,7 +96,7 @@ class RecipeController extends AbstractController
 
 
     /**
-     * @Route("/show/{recipe}", name="show")
+     * @Route("/{slug}", name="show")
      */
     public function show(Recipe $recipe)
     {
@@ -102,11 +107,11 @@ class RecipeController extends AbstractController
 
 
     /**
-     * @Route("/delete/{recipe}", name="delete", methods={"POST"})
+     * @Route("/delete/{slug}", name="delete", methods={"POST"})
      */
-    public function delete(Request $request, Recipe $recipe, EntityManagerInterface $manager): Response
+    public function delete(Recipe $recipe, Request $request, EntityManagerInterface $manager): Response
     {
-        if ($this->isCsrfTokenValid('delete'. $recipe->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'. $recipe->getSlug(), $request->request->get('_token'))) {
             $recipe->setIsActive(false);
             $manager->flush();
             $this->addFlash('success', 'Vous avez supprimé la recette avec succès !');

@@ -30,8 +30,8 @@
                 <td>{{ recipe.cost.name }}</td>
                 <td>{{ recipe.isActive ? 'Oui' : 'Non'}}</td>
                 <td>
-                    <a href="{{ path('recipe_show', {'recipe': recipe.id}) }}"><button>Voir la fiche</button></a>
-                    <a href="{{ path('recipe_edit', {'recipe': recipe.id}) }}"><button>Edition</button></a>
+                    <a href="{{ path('recipe_show', {'slug': recipe.slug}) }}"><button>Voir la fiche</button></a>
+                    <a href="{{ path('recipe_edit', {'slug': recipe.slug}) }}"><button>Edition</button></a>
                 </td>
             </tr>
         {% else %}

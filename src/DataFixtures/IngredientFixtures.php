@@ -110,7 +110,7 @@ class IngredientFixtures extends Fixture implements DependentFixtureInterface
 
         $ingredient = new Ingredient();
         $ingredient->setAliment($this->getReference('aliment_1'));
-        $ingredient->setQuantity(200);
+        $ingredient->setQuantity(1);
         $manager->persist($ingredient);
         $this->addReference('ingredient_17', $ingredient);
 

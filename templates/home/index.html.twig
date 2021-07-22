@@ -11,7 +11,7 @@
         <div class="row">
             {% for recipe in recipes %}
                 <div class="col-lg-4 col-12">
-                    <a href="{{ path('recipe_show', {recipe: recipe.id}) }}">
+                    <a href="{{ path('recipe_show', {slug: recipe.slug}) }}">
                         <div class="card" style="width: 25rem;">
                             <img src="{{ asset('uploads/' ~ recipe.namePicture) }}" class="card-img-top" alt="image de la recette {{ recipe.name }}">
                             <div class="card-body">

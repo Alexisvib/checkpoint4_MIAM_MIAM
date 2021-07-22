@@ -13,8 +13,8 @@
 
     <div class="container recipe-add">
         <div class="row d-flex justify-content-center">
-            <form method="post" action="{{ path('recipe_delete', {'recipe': recipe.id}) }}" onsubmit="return confirm('Êtes-vous sur de vouloir supprimer la recette ?');">
-                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recipe.id) }}">
+            <form method="post" action="{{ path('recipe_delete', {'slug': recipe.slug}) }}" onsubmit="return confirm('Êtes-vous sur de vouloir supprimer la recette ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recipe.slug) }}">
                 <button class="btn button">Supprimer la recette</button>
             </form>
         </div>
