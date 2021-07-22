@@ -1,3 +1,25 @@
 li{
   list-style: none;
 }
+
+h1{
+  font-family: 'Fredericka the Great', cursive;
+  font-size: 7vh;
+  color: $orange;
+  margin-top: 20px;
+  text-align: center;
+}
+
+button {
+  font-family: 'Bebas Neue', cursive;
+  background: rgb(255,163,163);
+  background: linear-gradient(0deg, rgba(255,163,163,1) 0%, rgba(243,172,89,1) 100%);
+}
+
+a {
+  text-decoration: none !important;
+  color: $orange;
+  &:hover{
+    color: $dark-orange;
+  }
+}
