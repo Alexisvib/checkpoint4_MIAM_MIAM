@@ -37,10 +37,12 @@ class RecipeType extends AbstractType
             ->add('steps', CollectionType::class, [
                 'entry_type' => StepType::class,
                 'allow_add' => true,
+                'label' => false,
             ])
             ->add('ingredients', CollectionType::class, [
                 'entry_type' => IngredientType::class,
                 'allow_add' => true,
+                'label' => false,
             ])
         ;
     }

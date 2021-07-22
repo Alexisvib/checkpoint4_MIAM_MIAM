@@ -1,4 +1,7 @@
 // the ~ allows you to reference things in node_modules
 @import "~bootstrap/scss/bootstrap";
-
+@import 'variable.scss';
 @import 'global.scss';
+@import 'navbar.scss';
+@import 'login.scss';
+@import 'recipe_form.scss';
