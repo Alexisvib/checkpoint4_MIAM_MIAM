@@ -61,7 +61,7 @@ class CartController extends AbstractController
         $manager->flush();
         $this->addFlash('success', 'recette ajoutée au cadis');
 
-        return $this->redirectToRoute('recipe_show', ['recipe' => $recipe->getId()]);
+        return $this->redirectToRoute('recipe_show', ['slug' => $recipe->getSlug()]);
     }
 
     /**

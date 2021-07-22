@@ -3,14 +3,18 @@
 namespace App\DataFixtures;
 
 use App\Entity\Recipe;
+use Cocur\Slugify\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class RecipeFixtures extends Fixture implements DependentFixtureInterface
 {
+
     public function load(ObjectManager $manager)
     {
+        $slugify = new Slugify();
+
         $recipe = new Recipe();
         $recipe->setIsActive(true);
         $recipe->setOwner($this->getReference(('user_1')));
@@ -29,6 +33,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
             $recipe->addStep($this->getReference('step_' . $i));
         }
 
+        $recipe->setSlug($slugify->slugify($recipe->getName()));
         $manager->persist($recipe);
 
 
@@ -49,7 +54,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
         for($i=6; $i<8; $i++) {
             $recipe->addStep($this->getReference('step_' . $i));
         }
-
+        $recipe->setSlug($slugify->slugify($recipe->getName()));
         $manager->persist($recipe);
 
 
@@ -70,7 +75,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
         for($i=8; $i<13; $i++) {
             $recipe->addStep($this->getReference('step_' . $i));
         }
-
+        $recipe->setSlug($slugify->slugify($recipe->getName()));
         $manager->persist($recipe);
 
 
@@ -91,7 +96,7 @@ class RecipeFixtures extends Fixture implements DependentFixtureInterface
         for($i=13; $i<16; $i++) {
             $recipe->addStep($this->getReference('step_' . $i));
         }
-
+        $recipe->setSlug($slugify->slugify($recipe->getName()));
         $manager->persist($recipe);
 
         $manager->flush();
