@@ -4,23 +4,33 @@
 
 {% block body %}
 
-    <h1>Recette : {{ recipe.name }}</h1>
+    <div class="container">
+        <div class="row">
+            <h1>Recette : {{ recipe.name }}</h1>
+            <div class="d-flex justify-content-center">
+            {% if app.user %}
+                <a href="{{ path('cart_add', {recipe: recipe.id}) }}"><button> Ajouter la recette à mon caddie ! </button></a>
+            {% endif %}
+            </div>
+        </div>
 
-    <h2> Ingrédients </h2>
-    <ul>
-        {% for ingredient in recipe.ingredients %}
-            <li> {{ ingredient.aliment.name }}  :  quantité {{ ingredient.quantity }} </li>
-        {% endfor %}
-    </ul>
-    <h3> Etapes </h3>
-    <ul>
-        {% for step in recipe.steps %}
-            <li> étape {{ step.number }} : {{ step.description}} </li>
 
-        {% else %}
-            <li> Aucune étape indiquée </li>
-        {% endfor %}
-    </ul>
+        <h2> Ingrédients </h2>
+        <ul>
+            {% for ingredient in recipe.ingredients %}
+                <li> {{ ingredient.aliment.name }} {% if ingredient.quantity%} : quantité {{ ingredient.quantity }} {% endif %}</li>
+            {% endfor %}
+        </ul>
+        <h3> Etapes </h3>
+        <ul>
+            {% for step in recipe.steps %}
+                <li> étape {{ step.number }} : {{ step.description}} </li>
+
+            {% else %}
+                <li> Aucune étape indiquée </li>
+            {% endfor %}
+        </ul>
 
     </div>
+
 {% endblock %}
