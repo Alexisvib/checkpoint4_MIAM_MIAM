@@ -31,6 +31,10 @@
             {% endfor %}
         </ul>
 
+        {% if app.user == recipe.owner %}
+            <a href="{{ path('recipe_edit', {recipe: recipe.id}) }}"><button>Editer ma recette</button></a>
+        {% endif %}
+
     </div>
 
 {% endblock %}
