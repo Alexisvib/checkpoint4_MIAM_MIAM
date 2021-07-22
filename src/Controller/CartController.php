@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
- * @Route("/caddie", name="cart_")
+ * @Route("/liste_de_course", name="cart_")
  * @IsGranted("ROLE_CONTRIBUTOR")
  */
 class CartController extends AbstractController
@@ -39,6 +39,7 @@ class CartController extends AbstractController
 
         return $this->render('cart/index.html.twig', [
             'list' => $list,
+            'cart' => $cart,
         ]);
     }
 
@@ -58,9 +59,23 @@ class CartController extends AbstractController
         $cart->addRecipe($recipe);
         $manager->persist($cart);
         $manager->flush();
+        $this->addFlash('success', 'recette ajoutée au cadis');
 
         return $this->redirectToRoute('recipe_show', ['recipe' => $recipe->getId()]);
     }
+
+    /**
+     * @Route("/cloturer/{cart}", name="close")
+     */
+    public function close(Cart $cart, EntityManagerInterface $manager): Response
+    {
+       $cart->setIsOpen(false);
+       $manager->flush();
+       $this->addFlash('success', 'liste de course clôturée');
+       return $this->redirectToRoute('cart_index');
+    }
+
+
 
 
 

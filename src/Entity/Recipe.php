@@ -6,9 +6,13 @@ use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 /**
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
+ * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks()
  */
 class Recipe
@@ -81,12 +85,42 @@ class Recipe
      */
     private $owner;
 
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $namePicture;
+
+    /**
+     * @Vich\UploadableField(mapping="pictures", fileNameProperty="name_picture")
+     * @var File
+     */
+    private $picture;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->rates = new ArrayCollection();
         $this->ingredients = new ArrayCollection();
         $this->steps = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNamePicture()
+    {
+        return $this->namePicture;
+    }
+
+    /**
+     * @param mixed $namePicture
+     * @return Recipe
+     */
+    public function setNamePicture($namePicture)
+    {
+        $this->namePicture = $namePicture;
+        return $this;
     }
 
     /**
@@ -324,4 +358,23 @@ class Recipe
 
         return $this;
     }
+
+    /**
+     * @return File
+     */
+    public function getPicture(): ?File
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param File $picture
+     * @return Recipe
+     */
+    public function setPicture(File $picture = null): Recipe
+    {
+        $this->picture = $picture;
+        return $this;
+    }
+
 }
