@@ -8,9 +8,9 @@
 
     <div class="container">
 
-        <div class="row">
+        <div class="row justify-content-center">
             {% for recipe in recipes %}
-                <div class="col-lg-4 col-12">
+                <div class="col-lg-4 col-12 mt-5">
                     <a href="{{ path('recipe_show', {slug: recipe.slug}) }}">
                         <div class="card" style="width: 25rem;">
                             <img src="{{ asset('uploads/' ~ recipe.namePicture) }}" class="card-img-top" alt="image de la recette {{ recipe.name }}">

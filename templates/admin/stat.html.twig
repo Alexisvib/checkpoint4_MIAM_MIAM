@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques !{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Statistiques</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-4 mr-2 ml-3 card  mb-3">
+            <div class="card-header border-dark">Utilisateurs inscrits</div>
+            <div class="card-body text-dark">
+                <p class="card-title display-4 text-center">{{ countUser }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 mr-2 ml-3 card  mb-3">
+            <div class="card-header border-dark">Recettes postées</div>
+            <div class="card-body text-dark">
+                <p class="card-title display-4 text-center">{{ countRecipe }}</p>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-4 mr-2 ml-3 card  mb-3">
+            <div class="card-header border-dark">Dernière recette posté le : </div>
+            <div class="card-body text-dark">
+                <p class="card-title display-4 text-center">{{ lastRecipe|date("d/m/Y") }}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

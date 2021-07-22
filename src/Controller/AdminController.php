@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\RecipeRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,5 +32,23 @@ class AdminController extends AbstractController
         return $this->render('admin/recipes.html.twig', [
             'recipes' => $recipes,
         ]);
+    }
+
+    /**
+     * @Route("/statistiques", name="stat")
+     */
+    public function stat(UserRepository $userRepository, RecipeRepository $recipeRepository)
+    {
+
+        $countUser = count($userRepository->findAll()) - 1;
+        $countRecipe = count($recipeRepository->findAll());
+        $lastRecipe = $recipeRepository->findOneBy([], ['createdAt' => 'ASC'])->getCreatedAt();
+
+        return $this->render('admin/stat.html.twig', [
+            'countUser' => $countUser,
+            'countRecipe' => $countRecipe,
+            'lastRecipe' => $lastRecipe,
+    ]);
+
     }
 }
