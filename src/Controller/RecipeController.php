@@ -46,6 +46,7 @@ class RecipeController extends AbstractController
             $manager->persist($recipe);
             $manager->flush();
             $this->addFlash('success', 'recette ajoutée à l\'application');
+            return $this->redirectToRoute('home');
         }
         return $this->render('recipe/add.html.twig', [
             'form' => $form->createView(),
