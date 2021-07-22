@@ -1,20 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
+    <h1>Liste des recettes de l'application</h1>
     <ul>
-        <li>Your controller at <code><a href="{{ '/home/alexisvib/formation/checkpoint/checkpoint4_alexis/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/alexisvib/formation/checkpoint/checkpoint4_alexis/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
+        {% for recipe in recipes %}
+            <li><a href="{{ path('recipe_show', {recipe: recipe.id}) }}">{{ recipe.name }}</a> </li>
+        {% else %}
+            <li> Aucune recette ajoutée à l'application </li>
+        {% endfor %}
+
     </ul>
 </div>
 {% endblock %}

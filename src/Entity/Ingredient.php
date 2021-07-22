@@ -24,17 +24,15 @@ class Ingredient
     private $aliment;
 
 
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Recipe::class, inversedBy="ingredients")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $recipe;
-
     /**
      * @ORM\Column(type="float", nullable=true)
      */
     private $quantity;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Recipe::class, inversedBy="ingredients")
+     */
+    private $recipe;
 
     public function getId(): ?int
     {
@@ -65,15 +63,21 @@ class Ingredient
         return $this;
     }
 
-    public function getQuantity(): ?float
+    /**
+     * @return mixed
+     */
+    public function getQuantity()
     {
         return $this->quantity;
     }
 
-    public function setQuantity(?float $quantity): self
+    /**
+     * @param mixed $quantity
+     */
+    public function setQuantity($quantity): void
     {
         $this->quantity = $quantity;
-
-        return $this;
     }
+
+
 }
