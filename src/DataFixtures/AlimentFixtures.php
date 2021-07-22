@@ -21,11 +21,23 @@ class AlimentFixtures extends Fixture implements DependentFixtureInterface
 
     public const ALIMENTS = [
         'courgette'             => ['Courgette', self::FRUITS_VEGETABLE],
+        'tomate'                => ['Tomate', self::FRUITS_VEGETABLE],
+        'herbes_provencal'      => ['Herbes de Provences', self::GROCERY],
+        'lasagnes'              => ['Lasagnes', self::GROCERY],
+        'gryere'                => ['Gruyères', self::FRESH],
+        'coulis'                => ['Coulis de Tomate', self::GROCERY],
+        'bechamel'              => ['Bechamel', self::GROCERY],
+        'basilic'               => ['Basilic', self::FRUITS_VEGETABLE],
         'oignons'               => ['Oignons', self::FRUITS_VEGETABLE],
         'bouillon_vegetable'    => ['Bouillon de cube de légume', self::GROCERY],
         'cream_fresh'           => ['Crème fraiche', self::FRESH],
-        'salt'                   => ['Sel', self::GROCERY],
+        'salt'                  => ['Sel', self::GROCERY],
         'pepper'                => ['Poivre', self::GROCERY],
+        'haricot_vert'          => ['Haricot Vert', self::GROCERY],
+        'steak'                 => ['Steak', self::MEAT],
+        'chocolat'              => ['Chocolat', self::GROCERY],
+        'oeufs'                 => ['Oeufs', self::GROCERY],
+        'poisson_blanc'         => ['Poisson Blanc', self::FISH],
     ];
 
 

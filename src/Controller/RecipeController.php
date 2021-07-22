@@ -43,6 +43,7 @@ class RecipeController extends AbstractController
             }
 
             $recipe->setOwner($this->getUser());
+            $recipe->setIsActive(true);
             $manager->persist($recipe);
             $manager->flush();
             $this->addFlash('success', 'recette ajoutée à l\'application');
@@ -84,6 +85,7 @@ class RecipeController extends AbstractController
         }
         return $this->render('recipe/edit.html.twig', [
             'form' => $form->createView(),
+            'recipe' => $recipe,
         ]);
     }
 
@@ -96,5 +98,20 @@ class RecipeController extends AbstractController
         return $this->render('recipe/show.html.twig', [
             'recipe' => $recipe
         ]);
+    }
+
+
+    /**
+     * @Route("/delete/{recipe}", name="delete", methods={"POST"})
+     */
+    public function delete(Request $request, Recipe $recipe, EntityManagerInterface $manager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'. $recipe->getId(), $request->request->get('_token'))) {
+            $recipe->setIsActive(false);
+            $manager->flush();
+            $this->addFlash('success', 'Vous avez supprimé la recette avec succès !');
+        }
+
+        return $this->redirectToRoute('home');
     }
 }

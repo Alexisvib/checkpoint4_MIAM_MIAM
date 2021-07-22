@@ -14,7 +14,7 @@ class HomeController extends AbstractController
      */
     public function index(RecipeRepository $recipeRepository): Response
     {
-        $recipes = $recipeRepository->findAll();
+        $recipes = $recipeRepository->findBy(['isActive' => true]);
         return $this->render('home/index.html.twig', [
             'recipes' => $recipes,
         ]);
